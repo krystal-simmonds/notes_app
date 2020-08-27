@@ -3,11 +3,9 @@ package com.qa.notes.rest;
 import com.qa.notes.domain.Note;
 import com.qa.notes.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -29,4 +27,26 @@ public class NotesController {
     public Note createNote(@RequestBody Note note){
         return this.noteService.createNote(note);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public Boolean deleteNote(@PathVariable Long id) {
+        return this.noteService.deleteNoteById(id);
+    }
+
+    @GetMapping("/getNoteById/{id}")
+    public Note getNoteById(@PathVariable Long id){
+        return this.noteService.findNoteById(id);
+    }
+
+    @PutMapping("/updateNote/{id}")
+    public Note updateNote(@PathVariable Long id, @RequestBody Note note) {
+        return this.noteService.updateNote(id, note);
+    }
+
+    @PutMapping("/updateNote2")
+    public Note updateNoteWithPathParam(@PathParam("id") Long id, @RequestBody Note note) {
+        // localhost:8080/updateNoteWithPathParam?id=1
+        return this.noteService.updateNote(id, note);
+    }
+
 }
